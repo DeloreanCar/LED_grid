@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;led_tester/src/coordslist&apos; to &apos;coordslist.py&apos;" description="Rename resource &apos;coordslist&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="src/coordslist" name="coordslist.py" stamp="1488454234602" updateReferences="true"/>
+</session>

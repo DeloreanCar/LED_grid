@@ -1,0 +1,9 @@
+import pprint
+from astropy.io.fits.diff import indent
+#print('Hello!')
+N = 10
+a = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+#print(a, '\n')
+#a2d = [[0]* N for _ in range(N)]
+a2d = [ list(range(i*N, i*N-1)) for i in range(N)]]
+pprint.pprint(a2d)

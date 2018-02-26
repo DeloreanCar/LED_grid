@@ -1,0 +1,11 @@
+"""
+Existence of the input file
+Check for errors in the file, any commands which are not ”turn on”, ”turn off”
+or ”switch” should be ignored.
+If a command affects a region outside the area of the grid, then it will still be
+executed, but only on the region of lights inside the boundary of the grid.
+"""
+print('Hello!')
+
+#row1 = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+#print(row1)

@@ -1,0 +1,156 @@
+import time
+import argparse
+import urllib.request
+
+#filename = "C:\SWE_LED_INPUTS\input_assign3.txt" #finalcount:  398967, time:  9.159772872924805 
+#filename = "C:\SWE_LED_INPUTS\input_assign3_a.txt"
+#filename = "C:\SWE_LED_INPUTS\input_assign3_b.txt" #finalcount:  29929669; time:  951.1748509407043 DIFF: 12581
+filename = "C:\SWE_LED_INPUTS\input_assign3_c.txt" #minus numbers
+#filename = "C:\SWE_LED_INPUTS\input_assign3_d.txt" #misspellings
+
+"""
+def argParser():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--input', help='input help')
+    args = parser.parse_args()
+    url = args.input
+    return url
+
+def readUri(filename):
+    if filename.startswith('http'):
+        uri = filename
+        req = urllib.request.urlopen(uri)
+        buffer = req.read().strip().split('\n').decode('utf-8')
+    else:
+        buffer = open(filename).read().strip().split('\n')
+    return buffer
+"""
+
+
+def gridSize(filename):
+    fr = open(filename).readlines() 
+    for rlines in fr:
+        rlines = rlines.split("\n")
+        grid_size = int(rlines[0])
+        return grid_size
+    
+def gridbuild(grid_size):
+    init_grid = [[False]*grid_size for _ in range(grid_size)]
+    return init_grid
+
+def getLines(filename):  #finds command, xy coords
+    lines_list = []
+    with open(filename) as f: #this will loop through all rows
+        for lines in f.readlines()[1:]:
+                #print(lines)
+                lines = lines.replace("\\n", "")
+                if lines != "": 
+                    lines_list.append(lines) #stopped here
+        #print("getlines done!")
+        return lines_list
+
+def parseLine(grid_size, lines):
+    words = lines.split(' ') #split line first to make five elements
+    if len(words) > 3: 
+        words[-1] = words[-1].rstrip('\r\n') #check this error here
+        if words[0] == "switch":
+            command = "switch"
+        elif words[0] == "turn" and words[1] == "on":
+            command = "on"
+        elif words[0] == "turn" and words[1] == "off":
+            command = "off"
+            
+    if command == "switch":
+        x1y1S = words[1].split(',')
+        x2y2S = words[3].split(',')
+        x1, y1 = str(x1y1S[0]), str(x1y1S[1])
+        x2, y2 = str(x2y2S[0]), str(x2y2S[1])
+        if  int(x1y1S[0]) >= int(grid_size)-1: #x1
+            x1 = str(int(grid_size-1))
+        if int(x1y1S[0]) <= 0:
+            x1 = 0  
+        if int(x1y1S[1]) >= int(grid_size)-1: #y1
+            y1 = str(int(grid_size-1))
+        if int(x1y1S[1])  <= 0:
+            y1 = 0
+        if int(x1y1S[0]) >= int(grid_size)-1: #x2
+            x2 = str(int(grid_size-1))
+        if int(x1y1S[0]) <= 0:
+            x2 = 0 
+        if int(x1y1S[1]) >= int(grid_size)-1:
+            y2 = str(int(grid_size-1))
+        if int(x1y1S[1]) <= 0:
+            y2 = 0
+    if len(words) > 4:
+        if command == "on" or "off": #when getting coords for on, off vars don't need diff names, command var will distinguish
+            x1y1T = words[2].split(',')
+            x2y2T = words[4].split(',')
+            x1, y1 = str(x1y1T[0]), str(x1y1T[1])
+            x2, y2 = str(x2y2T[0]), str(x2y2T[1])
+            
+            if int(x1y1T[0]) >= int(grid_size)-1: #x1
+                x1 = str(int(grid_size-1))
+            if int(x1y1T[0]) <= 0:
+                x1 = 0
+            if int(x1y1T[1]) >= int(grid_size)-1: #y1
+                y1 = str(int(grid_size-1))
+            if int(x1y1T[1]) <= 0:
+                y1 = 0
+            if int(x1y1T[0]) >= int(grid_size)-1: #x2
+                x2 = str(int(grid_size-1)) 
+            if int(x1y1T[0]) <= 0:
+                x2 = 0
+            if int(x1y1T[1]) >= int(grid_size)-1: #y2
+                y2 = str(int(grid_size-1))
+            if int(x1y1T[1]) <= 0:
+                y2 = 0
+    line_cmds = [command, x1, y1, x2, y2] 
+    return line_cmds 
+
+def coordList(grid_size, line_cmds):
+    cL = []
+    for i in range(int(line_cmds[1]), int(line_cmds[3])):
+        for j in range(int(line_cmds[2]), int(line_cmds[4])): 
+            coordVals = (i,j)
+            cL.append(coordVals)
+    return cL #list of tuples
+
+def indiv_commands(init_grid, command, cL):
+    for c in cL:
+        if command == "switch":
+            if init_grid[(c[0])][(c[1])] == False:
+                init_grid[(c[0])][(c[1])] = True
+            else:
+                init_grid[(c[0])][(c[1])] = False
+        if command == "on":
+            init_grid[(c[0])][(c[1])] = True
+        if command == "off":
+            init_grid[(c[0])][(c[1])] = False
+    return init_grid
+
+def truth_counter(init_grid):
+    counter = 0
+    for i in range(len(init_grid)):
+        for j in range(len(init_grid)): #remove minus 1, both
+            if init_grid[i][j] == True:
+                counter += 1
+    return counter
+
+def launchLED(filename):
+    #start = time.time()
+    grid_size = gridSize(filename)
+    init_grid = gridbuild(grid_size)
+    lines_list = getLines(filename) #incorrect structure for list of lines
+    for line in lines_list:
+        line_cmds = parseLine(grid_size, line)
+        cL = coordList(grid_size, line_cmds) #list of tuples to carry out command of that individual line
+        command = line_cmds[0]
+        init_grid = indiv_commands(init_grid, command, cL)
+    finalcount = truth_counter(init_grid)
+    end = time.time()
+    print("["+ str(filename) + "][" + str(finalcount) + "]")
+    #print("time: ", end - start)
+
+#argParser()
+#readUri(filename)
+#launchLED(filename)

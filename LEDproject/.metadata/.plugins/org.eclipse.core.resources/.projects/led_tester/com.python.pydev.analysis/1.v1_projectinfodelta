@@ -1,0 +1,13 @@
+INSTUPsrc.Cara.main
+C:\Users\Cara\Anaconda3\envs\comp30670\LED_PROJECT3\led_tester\src\Cara\main.py
+INFOS:&&3|1|2|0&&2|3|2|0&&2|4|2|0&&2|5|2|0&&2|6|2|0&&2|7|2|0&&2|8|2|0&&2|9|2|0&&2|10|2|0
+indiv_commands=8
+filename=1
+gridSize=3
+truth_counter=9
+gridbuild=4
+getLines=5
+coordList=7
+launchLED=10
+src.Cara.main=2
+parseLine=6

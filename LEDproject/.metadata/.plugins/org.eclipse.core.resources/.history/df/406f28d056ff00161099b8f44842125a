@@ -1,0 +1,123 @@
+import pprint as p
+import re
+filename = "C:\input_assign3_b.txt"
+
+def gridSize(filename):
+    fr = open(filename).readlines()
+    for rlines in fr:
+        rlines = rlines.split("\n")
+        grid_size = int(rlines[0])
+        #print("gridSize: ok", grid_size)
+        return grid_size
+
+def getLines(filename):  #finds command, xy coords
+    with open(filename) as f:      #this will loop through all rows
+        for line in f.readline():
+            if len(line) > 3: 
+                #plines = line.split()
+                print("i", line, len(line))
+                print("here") #, plines)
+                return plines #stopped here
+            else:
+                print('not used')
+
+
+def parseLine(plines):
+    words = plines.split() #split line first to make five elem
+    if len(words) >= 2: #avoid first line with grid size
+        if words[0] == "switch":
+            command = "switch"
+        elif words[0] == "turn" and words[1] == "on":
+            command = "on"
+        elif words[0] == "turn" and words[1] == "off":
+            command = "off"
+            #parse through for x1y1 and x2y2
+        if command == "switch":
+            x1y1S = words[1].split(',')
+            x2y2S = words[3].split(',')
+            #print(x1y1S, x2y2S)
+            x1, y1 = str(x1y1S[0]), str(x1y1S[1])
+            x2, y2 = str(x2y2S[0]), str(x2y2S[1])
+            #print(x1, y1, x2, y2) #coordinates for switch
+        if len(words) > 4:
+            #print(words[2])
+            #print(words[4])
+            if command == "on" or "off": #when getting coords for on, off vars don't need diff names, command var will distinguish
+                x1y1T = words[2].split(',')
+                x2y2T = words[4].split(',')
+                x1, y1 = str(x1y1T[0]), str(x1y1T[1])
+                x2, y2 = str(x2y2T[0]), str(x2y2T[1]) #how to assign correctly
+                #print(x1, y1, x2, y2) #coordinates for ON or OFF
+            print("parselines: ok")
+            #print(command, x1, y1, x2, y2)
+            #print(type(command), type(x1))
+            return command, x1, y1, x2, y2
+
+# make these cmds take the inputs from each line in a for loop
+def coordList(grid_size, x1, y1, x2, y2):
+    global cL
+    cL = ""
+    coordVal = ""
+    #x1, y1, x2, y2 = 1, 3, 1, 3
+    for p in range(x1, y1):
+        for q in range(x2, y2): #bring vals from parselines
+            coordVal += str((p,q))
+            cL += coordVal
+    print(cL)
+    print(cL[1])
+    print(cL[3])
+    print("coordList: ok")
+    return cL #string of coordinates
+    #print(type(p))
+    #print(type(coord_list))
+
+def indiv_commands(cL, command):
+    print("indiv_cmds: ok")
+    pass
+    #return each indiv coord
+
+def gridbuild(grid_size):
+    #grid_size = int(fileopen.readline())
+    init_grid = [[False]*grid_size for _ in range(grid_size)]
+    print("grid of size " + str(grid_size) + " built.")
+    return init_grid
+#print("coOrd", coOrd) ##stopped here
+
+def launchLED(filename):
+    grid_size = gridSize(filename)
+    plines = getLines(filename)
+    #parse_line = parseLine(plines)
+    #command, x1, y1, x2, y2 = parse_line[0], parse_line[1], parse_line[2], parse_line[3], parse_line[4]
+    #cL = coordList(grid_size, x1, y1, x2, y2)
+    #init_grid = gridbuild(grid_size)
+    
+    #print(gridSize(filename))
+    #print(gridbuild(grid_size))
+    #print(getLines(filename))
+    #print(parseLine(plines))
+    #execLED(command, cL)
+#print(gridSize(filename))
+#print(parseLines[0]) #, parseLines[1], parseLines[2], parseLines[3], parseLines[4])
+print(launchLED(filename))
+"""
+def execLED(command, cL):
+    #here you loop through tuples of cL, pass to switch method
+    for coOrd in cL:
+        print("coOrd", coOrd)
+        if command == "switch":
+            if grid[(cL[0])][cL[1]] == False:
+                return turnOn(cL[0],cL[1]) #stopped here
+            else:
+                return turnOff(i, j)
+
+    #on, off, switch functions
+def turnOn(i,j):
+    grid[i][j] = True
+def turnOff(i,j):
+    grid[i][j] = False
+def switch(i,j):
+    if grid[i][j] == False:
+        return turnOn(i,j)
+    else:
+        return turnOff(i,j)
+    """

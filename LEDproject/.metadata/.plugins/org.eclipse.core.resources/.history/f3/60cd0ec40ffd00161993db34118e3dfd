@@ -1,0 +1,9 @@
+import pprint
+
+grid_size = 9 #int(input('Enter grid size: '))
+
+grid = [[False]*grid_size for i in range(grid_size)]
+pprint.pprint(grid)
+
+slice_grid = (grid[2:])
+#pprint.pprint(slice_grid)

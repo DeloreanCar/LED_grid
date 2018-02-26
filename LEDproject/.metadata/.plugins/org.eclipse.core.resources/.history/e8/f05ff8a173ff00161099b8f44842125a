@@ -1,0 +1,161 @@
+import pprint as p
+#import re
+from builtins import int
+filename = "C:\input_assign3_b.txt"
+
+def gridSize(filename):
+    fr = open(filename).readlines() #readline()
+    for rlines in fr:
+        rlines = rlines.split("\n")
+        grid_size = int(rlines[0])
+        #print("gridSize: ok", grid_size)
+        return grid_size
+    
+def gridbuild(grid_size):
+    #grid_size = int(fileopen.readline())
+    init_grid = [[False]*grid_size for _ in range(grid_size)]
+    print("grid of size " + str(grid_size) + " built",  type(init_grid))
+    return init_grid
+
+def getLines(filename):  #finds command, xy coords
+    lines_list = []
+    with open(filename) as f:      #this will loop through all rows
+        for lines in f.readlines()[1:]:
+            #while lines in f.readlines() >= 1: 
+                #while len(lines) >= 8:  #####stopped infinite loop here
+                    #plines = line.split()
+                lines = lines.replace("\\n", "")
+                lines_list.append(lines) #stopped here
+        print("all lines appended, lines_list i.e list of lines made, type:", type(lines_list))
+        return lines_list
+
+def parseLine(lines):
+    #words = lines
+    words = lines.split(' ') #split line first to make five elem
+    print("IN PARSELINE: data type for words and length", type(words), len(words), type(words[0]))
+    if len(words) > 3:
+        words[4] = words[4].rstrip('\r\n') #check this
+    print(words, words[0], words[1])
+    if len(words) >= 2: #avoid first line with grid size
+        if words[0] == "switch":
+            command = "switch"
+        elif words[0] == "turn" and words[1] == "on":
+            command = "on"
+        elif words[0] == "turn" and words[1] == "off":
+            command = "off"
+            #parse through for x1y1 and x2y2
+        if command == "switch":
+            x1y1S = words[1].split(',')
+            x2y2S = words[3].split(',')
+            #print(x1y1S, x2y2S)
+            x1, y1 = str(x1y1S[0]), str(x1y1S[1])
+            x2, y2 = str(x2y2S[0]), str(x2y2S[1])
+            #print(x1, y1, x2, y2) #coordinates for switch
+        if len(words) > 4:
+            #print(words[2])
+            #print(words[4])
+            if command == "on" or "off": #when getting coords for on, off vars don't need diff names, command var will distinguish
+                x1y1T = words[2].split(',')
+                x2y2T = words[4].split(',')
+                x1, y1 = str(x1y1T[0]), str(x1y1T[1])
+                x2, y2 = str(x2y2T[0]), str(x2y2T[1]) #how to assign correctly
+                #print(x1, y1, x2, y2) #coordinates for ON or OFF
+        print("parselines: five values assigned")
+            #print(command, x1, y1, x2, y2)
+            #print(type(command), type(x1))
+        line_cmds = [command, x1, y1, x2, y2] #check this is correct
+        print("command: ", command)
+        print("lines_cmd type: ", type(line_cmds))
+        print("y2", str(y2), type(y2))
+        print("line_cmds", line_cmds)
+    else:
+        print("ERROR!")
+    return line_cmds #command, x1, y1, x2, y2
+
+# make these cmds take the inputs from each line in a for loop
+def coordList(line_cmds):
+    cL = []
+    #coordVals = ()
+    #print(type(line_cmds))
+    print("in COORDSLIST")
+    for i in range(1,3): #int(line_cmds[1]), int(line_cmds[2])):
+        for j in range(3,6): #int(line_cmds[3]), int(line_cmds[4])): #bring vals from parselines
+            coordVals = (i,j)
+            print("coordVals: ", coordVals)
+            cL.append(coordVals)
+    #print(cL)
+    print("cL: ")
+    print(type(cL))
+    print(cL)
+    print("INSIDE COORDLIST, 4 coords: ", str(line_cmds[1]), type(line_cmds[1]))#, int(line_cmds[2]), int(line_cmds[3]), int(line_cmds[4]))
+    print("INSIDE COORDLIST: ", type(cL), type(cL[0]), type(cL[1]), type(cL[2]), cL[0], cL[1], cL[2])
+    print("coordList: ok")
+    return cL #list of tuples
+    #print(type(p))
+    #print(type(coord_list))
+
+def indiv_commands(init_grid, command, cL):
+    print("init grid: ", type(init_grid), len(init_grid))
+    print(type(command), command)
+    print(type(cL), cL)
+    print(cL[0], cL[1], cL[2])
+    for c in cL:
+        #print("coord", coord, coord[0], coord[1], type(coord[1]), cL[0], type(cL[0]))
+        print("command, coord", command, c, c[0], c[1], type(c[1]), c[0], type(c[0]))
+        #coord = coord
+        #for coord[0], coord[1] in cL:
+        #with coord[0], coord[1] in cL as i, j:   
+        if command == "switch":
+            #if init_grid[i][j] == False:
+            if init_grid[(c[0])][c[1]] == False:
+                init_grid[(c[0])][c[1]] = True    
+                print("grid value: ", init_grid[(c[0])][c[1]])
+                #return turnOn(cL[0],cL[1]) #stopped here
+            else:
+                init_grid[(c[0])][c[1]] = False
+                print("grid value: ", init_grid[(c[0])][c[1]])  
+                #return turnOff(cL[0],cL[1])
+        if command == "on":
+            init_grid[(c[0])][c[1]] = True
+            print("grid value: ", init_grid[(c[0])][c[1]])
+        else:
+            if command == "off":
+                init_grid[(c[0])][c[1]] == False
+                print("grid value: ", init_grid[(c[0])][c[1]])
+    return init_grid
+    #count = 0
+    #print("updatedGrid: ", type(updatedGrid)) 
+    #for i in updatedGrid == True:
+    #   count += 1
+    #finalcount = int(count) #(sum(updatedGrid))
+    #print("finalcount: ", finalcount)
+    #return finalcount
+        #on, off, switch functions
+        """
+def truth_counter(new_grid):
+    counter = 0
+    for i 
+     if new_grid[(c[0])][c[1]] == True:"""
+         
+    #for 
+
+#print("coOrd", coOrd) ##stopped here
+
+def launchLED(filename):
+    grid_size = gridSize(filename)
+    init_grid = gridbuild(grid_size)
+    lines_list = getLines(filename) #incorrect structure for list of lines
+    for line in lines_list:
+        print("LAUNCH_LED LOOP: data type of line and length: ", type(line), len(line))
+        line_cmds = parseLine(line)
+        cL = coordList(line_cmds) #list of tuples to carry out command of that individual line
+        command = line_cmds[0]
+        #x1, y1, x2, y2 = line_cmds[1], line_cmds[2], line_cmds[3], line_cmds[4]
+        print("inputs for final:")
+        print(len(init_grid), command, cL)
+        new_grid = indiv_commands(init_grid, command, cL)
+        
+    #print(sum(new_grid)
+    #print(sum(updatedGrid))
+           
+launchLED(filename)

@@ -1,0 +1,122 @@
+import pprint as p
+#import re
+from builtins import int
+filename = "C:\input_assign3_b.txt"
+
+def gridSize(filename):
+    fr = open(filename).readlines()
+    for rlines in fr:
+        rlines = rlines.split("\n")
+        grid_size = int(rlines[0])
+        #print("gridSize: ok", grid_size)
+        return grid_size
+    
+def gridbuild(grid_size):
+    #grid_size = int(fileopen.readline())
+    init_grid = [[False]*grid_size for _ in range(grid_size)]
+    print("grid of size " + str(grid_size) + " built.")
+    return init_grid
+
+def getLines(filename):  #finds command, xy coords
+    lines_list = []
+    with open(filename) as f:      #this will loop through all rows
+        for lines in f.readlines():
+            #while lines in f.readlines() >= 1:
+                #while len(lines) >= 8:  #####stopped infinite loop here
+                    #plines = line.split()
+                print("line", lines)
+                print("here") #, plines)
+                lines_list.append(lines) #stopped here
+    print("all lines iterated, line_list made")
+    return lines_list
+
+def parseLine(lines):
+        words = lines.split(' ') #split line first to make five elem
+        print("length: ", len(words))
+        if len(words) >= 2: #avoid first line with grid size
+            if words[0] == "switch":
+                command = "switch"
+            elif words[0] == "turn" and words[1] == "on":
+                command = "on"
+            elif words[0] == "turn" and words[1] == "off":
+                command = "off"
+                #parse through for x1y1 and x2y2
+            if command == "switch":
+                x1y1S = words[1].split(',')
+                x2y2S = words[3].split(',')
+                #print(x1y1S, x2y2S)
+                x1, y1 = str(x1y1S[0]), str(x1y1S[1])
+                x2, y2 = str(x2y2S[0]), str(x2y2S[1])
+                #print(x1, y1, x2, y2) #coordinates for switch
+            if len(words) > 4:
+                #print(words[2])
+                #print(words[4])
+                if command == "on" or "off": #when getting coords for on, off vars don't need diff names, command var will distinguish
+                    x1y1T = words[2].split(',')
+                    x2y2T = words[4].split(',')
+                    x1, y1 = str(x1y1T[0]), str(x1y1T[1])
+                    x2, y2 = str(x2y2T[0]), str(x2y2T[1]) #how to assign correctly
+                    #print(x1, y1, x2, y2) #coordinates for ON or OFF
+                print("parselines: ok")
+                #print(command, x1, y1, x2, y2)
+                #print(type(command), type(x1))
+            line_cmds = [command, x1, y1, x2, y2] #check this is correct
+            print(type(line_cmds))
+            return line_cmds #command, x1, y1, x2, y2
+
+# make these cmds take the inputs from each line in a for loop
+def coordList(line_cmds):
+    cL = []
+    #coordVals = ()
+    #print(type(line_cmds))
+    for p in range(line_cmds[1], line_cmds[2]):
+        for q in range(line_cmds[3], line_cmds[4]): #bring vals from parselines
+            coordVals = (p,q)
+            print(coordVals)
+            cL.append(coordVals)
+    #print(cL)
+    print("coordList: ok")
+    return cL #string of coordinates
+    #print(type(p))
+    #print(type(coord_list))
+
+def indiv_commands(init_grid, command, cL):
+    for coord in cL:
+        for coord[0], coord[1] in cL:
+            #print("coOrd", coOrd)
+            if command == "switch":
+                if init_grid[(cL[0])][cL[1]] == False:
+                    updatedGrid = init_grid[(cL[0])][cL[1]] = True
+                    #return turnOn(cL[0],cL[1]) #stopped here
+                else:
+                    updatedGrid = init_grid[(cL[0])][cL[1]] = False
+                    #return turnOff(cL[0],cL[1])
+            if command == "on":
+                updatedGrid = init_grid[(cL[0])][cL[1]] = True
+            else:
+                if command == "off":
+                    updatedGrid = init_grid[(cL[0])][cL[1]] == False
+    finalcount = (sum(updatedGrid))
+    return finalcount
+        #on, off, switch functions
+        
+#def truth_counter(updatedGrid):
+    #counter = int
+    #for 
+
+#print("coOrd", coOrd) ##stopped here
+
+def launchLED(filename):
+    grid_size = gridSize(filename)
+    init_grid = gridbuild(grid_size)
+    lines_list = getLines(filename)
+    for lines in lines_list:
+        line_cmds = parseLine(lines)
+        cL = coordList(line_cmds)
+        command = line_cmds[0]
+        #x1, y1, x2, y2 = line_cmds[1], line_cmds[2], line_cmds[3], line_cmds[4]
+        finalcount = indiv_commands(init_grid, command, cL)
+    print(finalcount)
+    #print(sum(updatedGrid))
+           
+launchLED(filename)

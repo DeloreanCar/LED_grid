@@ -1,0 +1,7 @@
+coordVal = ""
+x1, y1, x2, y2 = 1, 3, 1, 3
+for p in range(x1, y1):
+	for q in range(x2, y2): #bring vals from parselines
+    	coordVal += str((p,q))
+        cL += coordVal
+print(cL)

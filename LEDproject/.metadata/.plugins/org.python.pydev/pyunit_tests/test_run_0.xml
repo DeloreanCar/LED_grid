@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?pydev-testrun version="1.0"?><pydev-testsuite>
+<summary errors="1" failures="0" finished="true" name="Test Run: 0" tests="0" total_time="Finished in: 0.04 secs."/>
+<test location="C:\Users\Cara\Anaconda3\envs\comp30670\LED_PROJECT3\led_tester\src\testinput.py" status="error" test="" time="0.01">
+<stdout/>
+<stderr><![CDATA[Traceback (most recent call last):
+  File "C:\Users\Cara\Anaconda3\lib\unittest\case.py", line 58, in testPartExecutor
+    yield
+  File "C:\Users\Cara\Anaconda3\lib\unittest\case.py", line 600, in run
+    testMethod()
+  File "C:\Users\Cara\Anaconda3\lib\site-packages\nose\failure.py", line 39, in runTest
+    raise self.exc_val.with_traceback(self.tb)
+  File "C:\Users\Cara\Anaconda3\lib\site-packages\nose\loader.py", line 418, in loadTestsFromName
+    addr.filename, addr.module)
+  File "C:\Users\Cara\Anaconda3\lib\site-packages\nose\importer.py", line 47, in importFromPath
+    return self.importFromDir(dir_path, fqname)
+  File "C:\Users\Cara\Anaconda3\lib\site-packages\nose\importer.py", line 94, in importFromDir
+    mod = load_module(part_fqname, fh, filename, desc)
+  File "C:\Users\Cara\Anaconda3\lib\imp.py", line 234, in load_module
+    return load_source(name, filename, file)
+  File "C:\Users\Cara\Anaconda3\lib\imp.py", line 172, in load_source
+    module = _load(spec)
+  File "<frozen importlib._bootstrap>", line 693, in _load
+  File "<frozen importlib._bootstrap>", line 673, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 665, in exec_module
+  File "<frozen importlib._bootstrap>", line 222, in _call_with_frames_removed
+  File "C:\Users\Cara\Anaconda3\envs\comp30670\LED_PROJECT3\led_tester\src\testinput.py", line 6, in <module>
+    with open(filename) as f:      #this will loop through all rows
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\input_assign3_b.txt'
+]]></stderr>
+</test>
+<launch mode="run">
+<launch_memento><![CDATA[<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<launchConfiguration local="true" path="led_tester src"/>
+]]></launch_memento>
+</launch>
+</pydev-testsuite>

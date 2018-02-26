@@ -1,0 +1,20 @@
+"""Your setup.py should install a script which reads input from a file (perhaps over
+the network), specified as a command line argument:
+1 solve_led --input http :// claritytrec.ucd.ie/~ alawlor/comp30670/ -
+input_assign3.txt
+"""
+
+from setuptools import setup
+
+setup(name="LEDtester",
+      version="0.1.0dev",
+      description="Creating and modifying LED grid, Assignment COMP47350",
+      url="",
+      author="Cara Delorey",
+      author_email="cara.delorey@ucdconnect.ie",
+      license="GPL3",
+      packages=["LED_Grid"],
+      entry_points={
+          'LED_Grid':['src.main:main'] 
+          }
+      )
